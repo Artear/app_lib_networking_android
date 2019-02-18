@@ -83,6 +83,9 @@ dependencies {
     //Support
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
 
+    //Artear
+    implementation "com.artear.tools:tools:$toolsVersion"
+
 }
 
 group = publishedGroupId
