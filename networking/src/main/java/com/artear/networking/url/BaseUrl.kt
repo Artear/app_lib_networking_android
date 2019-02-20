@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artear.networking
+package com.artear.networking.url
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import java.io.IOException
+class BaseUrl {
 
-class UserAgentInterceptor(private val userAgent: String) : Interceptor {
+    var url: String? = null
+        internal set
+    var scheme: String? = null
+        internal set
+    var host: String? = null
+        internal set
+    var version: String? = null
+        internal set
 
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest = chain.request()
-        val requestWithUserAgent = originalRequest.newBuilder()
-                .header("User-Agent", userAgent)
-                .build()
-        return chain.proceed(requestWithUserAgent)
+    override fun toString(): String {
+        return url.toString()
     }
+
 }

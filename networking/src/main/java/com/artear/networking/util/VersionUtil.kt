@@ -1,4 +1,4 @@
-package com.artear.networking
+package com.artear.networking.util
 
 import android.os.Build
 import android.os.Build.VERSION_CODES.LOLLIPOP

@@ -1,4 +1,4 @@
-package com.artear.networking
+package com.artear.networking.extension
 
 import android.content.Context
 import android.net.ConnectivityManager

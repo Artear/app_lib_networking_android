@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artear.networking
+package com.artear.networking.util
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -23,6 +23,8 @@ import android.net.NetworkInfo
 import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Build.VERSION_CODES.M
 import android.telephony.TelephonyManager.*
+import com.artear.networking.extension.connectivityManager
+import com.artear.networking.extension.telephonyManager
 import java.util.*
 
 object ConnectionUtil {
@@ -49,7 +51,7 @@ object ConnectionUtil {
                 connectionTypePreviousM(context)
             })
         }
-        return ConnectionType.UNKNOWN
+        return ConnectionUtil.ConnectionType.UNKNOWN
     }
 
     @TargetApi(M)
@@ -60,11 +62,11 @@ object ConnectionUtil {
             val transports = setOf(TRANSPORT_WIFI, TRANSPORT_VPN, TRANSPORT_CELLULAR)
             val transport = transports.first { nc.hasTransport(it) }
             when (transport) {
-                TRANSPORT_WIFI, TRANSPORT_VPN -> return ConnectionType.WIFI
+                TRANSPORT_WIFI, TRANSPORT_VPN -> return ConnectionUtil.ConnectionType.WIFI
                 TRANSPORT_CELLULAR -> return connectionMobileType(context)
             }
         }
-        return ConnectionType.UNKNOWN
+        return ConnectionUtil.ConnectionType.UNKNOWN
     }
 
     private fun ConnectivityManager.connectionTypePreviousM(context: Context): ConnectionType {
@@ -73,12 +75,12 @@ object ConnectionUtil {
 
     @TargetApi(LOLLIPOP)
     private fun ConnectivityManager.connectionTypeLollipop(context: Context): ConnectionType {
-        var connectionType = ConnectionType.UNKNOWN
+        var connectionType = ConnectionUtil.ConnectionType.UNKNOWN
         val networks = Arrays.asList(*allNetworks)
         for (network in networks) {
             val networkInfo = getNetworkInfo(network)
             if (networkInfo.isWifi())
-                connectionType = ConnectionType.WIFI
+                connectionType = ConnectionUtil.ConnectionType.WIFI
             else if (networkInfo.isMobile()) {
                 connectionType = connectionMobileType(context)
             }
@@ -93,13 +95,13 @@ object ConnectionUtil {
     private fun ConnectivityManager.connectionTypePreviousL(context: Context): ConnectionType {
         var networkInfo = getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         if (networkInfo.isConnectedOrConnecting)
-            return ConnectionType.WIFI
+            return ConnectionUtil.ConnectionType.WIFI
         else {
             networkInfo = getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
             if (networkInfo.isConnectedOrConnecting)
                 return connectionMobileType(context)
         }
-        return ConnectionType.UNKNOWN
+        return ConnectionUtil.ConnectionType.UNKNOWN
     }
 
     private fun connectionMobileType(context: Context): ConnectionType {
@@ -110,7 +112,7 @@ object ConnectionUtil {
                 NETWORK_TYPE_CDMA,
                 NETWORK_TYPE_1xRTT,
                 NETWORK_TYPE_IDEN -> {
-                    return ConnectionType._2G
+                    return ConnectionUtil.ConnectionType._2G
                 }
 
                 NETWORK_TYPE_UMTS,
@@ -122,13 +124,13 @@ object ConnectionUtil {
                 NETWORK_TYPE_EVDO_B,
                 NETWORK_TYPE_EHRPD,
                 NETWORK_TYPE_HSPAP -> {
-                    return ConnectionType._3G
+                    return ConnectionUtil.ConnectionType._3G
                 }
 
-                NETWORK_TYPE_LTE -> return ConnectionType._4G
+                NETWORK_TYPE_LTE -> return ConnectionUtil.ConnectionType._4G
             }
         }
-        return ConnectionType.UNKNOWN
+        return ConnectionUtil.ConnectionType.UNKNOWN
     }
 
     enum class ConnectionType {
