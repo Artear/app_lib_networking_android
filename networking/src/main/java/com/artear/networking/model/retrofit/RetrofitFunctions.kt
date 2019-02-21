@@ -6,7 +6,7 @@ import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
 
-internal fun <H : Any> executeWith(networking: Networking, call: () -> Call<H>): H {
+fun <H : Any> executeWith(networking: Networking, call: () -> Call<H>): H {
     val networkCall = RetrofitNetworkCall(call())
     return networking.execute(networkCall)
 }
