@@ -51,7 +51,7 @@ object ConnectionUtil {
                 connectionTypePreviousM(context)
             })
         }
-        return ConnectionUtil.ConnectionType.UNKNOWN
+        return ConnectionType.UNKNOWN
     }
 
     @TargetApi(M)
@@ -62,11 +62,11 @@ object ConnectionUtil {
             val transports = setOf(TRANSPORT_WIFI, TRANSPORT_VPN, TRANSPORT_CELLULAR)
             val transport = transports.first { nc.hasTransport(it) }
             when (transport) {
-                TRANSPORT_WIFI, TRANSPORT_VPN -> return ConnectionUtil.ConnectionType.WIFI
+                TRANSPORT_WIFI, TRANSPORT_VPN -> return ConnectionType.WIFI
                 TRANSPORT_CELLULAR -> return connectionMobileType(context)
             }
         }
-        return ConnectionUtil.ConnectionType.UNKNOWN
+        return ConnectionType.UNKNOWN
     }
 
     private fun ConnectivityManager.connectionTypePreviousM(context: Context): ConnectionType {
@@ -75,18 +75,23 @@ object ConnectionUtil {
 
     @TargetApi(LOLLIPOP)
     private fun ConnectivityManager.connectionTypeLollipop(context: Context): ConnectionType {
-        var connectionType = ConnectionUtil.ConnectionType.UNKNOWN
+        var connectionType = ConnectionType.UNKNOWN
         val networks = Arrays.asList(*allNetworks)
         for (network in networks) {
             val networkInfo = getNetworkInfo(network)
-            if (networkInfo.isWifi())
-                connectionType = ConnectionUtil.ConnectionType.WIFI
-            else if (networkInfo.isMobile()) {
-                connectionType = connectionMobileType(context)
+            val compare = when {
+                networkInfo.isWifi() -> ConnectionType.WIFI
+                networkInfo.isMobile() -> connectionMobileType(context)
+                else -> ConnectionType.UNKNOWN
             }
+            connectionType = compareConnections(connectionType, compare)
         }
         return connectionType
     }
+
+    private fun compareConnections(lastConnectionType: ConnectionType,
+                                   compared: ConnectionType): ConnectionType =
+            if (compared.ordinal > lastConnectionType.ordinal) compared else lastConnectionType
 
     /**
      * Just in old version for check connection
@@ -95,13 +100,13 @@ object ConnectionUtil {
     private fun ConnectivityManager.connectionTypePreviousL(context: Context): ConnectionType {
         var networkInfo = getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         if (networkInfo.isConnectedOrConnecting)
-            return ConnectionUtil.ConnectionType.WIFI
+            return ConnectionType.WIFI
         else {
             networkInfo = getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
             if (networkInfo.isConnectedOrConnecting)
                 return connectionMobileType(context)
         }
-        return ConnectionUtil.ConnectionType.UNKNOWN
+        return ConnectionType.UNKNOWN
     }
 
     private fun connectionMobileType(context: Context): ConnectionType {
@@ -112,9 +117,8 @@ object ConnectionUtil {
                 NETWORK_TYPE_CDMA,
                 NETWORK_TYPE_1xRTT,
                 NETWORK_TYPE_IDEN -> {
-                    return ConnectionUtil.ConnectionType._2G
+                    return ConnectionType._2G
                 }
-
                 NETWORK_TYPE_UMTS,
                 NETWORK_TYPE_EVDO_0,
                 NETWORK_TYPE_EVDO_A,
@@ -124,17 +128,16 @@ object ConnectionUtil {
                 NETWORK_TYPE_EVDO_B,
                 NETWORK_TYPE_EHRPD,
                 NETWORK_TYPE_HSPAP -> {
-                    return ConnectionUtil.ConnectionType._3G
+                    return ConnectionType._3G
                 }
-
-                NETWORK_TYPE_LTE -> return ConnectionUtil.ConnectionType._4G
+                NETWORK_TYPE_LTE -> return ConnectionType._4G
             }
         }
-        return ConnectionUtil.ConnectionType.UNKNOWN
+        return ConnectionType.UNKNOWN
     }
 
     enum class ConnectionType {
-        UNKNOWN, WIFI, _2G, _3G, _4G
+        UNKNOWN, _2G, _3G, _4G, WIFI
     }
 }
 
