@@ -15,17 +15,18 @@
  */
 package com.artear.networking.interceptor
 
+import com.artear.networking.util.UserAgent
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
-class UserAgentInterceptor(private val userAgent: String) : Interceptor {
+class UserAgentInterceptor(private val userAgent: UserAgent) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val requestWithUserAgent = originalRequest.newBuilder()
-                .header("User-Agent", userAgent)
+                .header("User-Agent", userAgent.toString())
                 .build()
         return chain.proceed(requestWithUserAgent)
     }
