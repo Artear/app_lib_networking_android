@@ -2,8 +2,8 @@ package com.artear.networking.contract
 
 import com.artear.networking.model.Outcome
 import com.artear.networking.util.checkNullOrThrow
+import com.artear.tools.android.log.logD
 import com.artear.tools.exception.NoInternetConnectionException
-import com.artear.tools.log.logD
 
 /**
  * Repository for execute a [NetworkCall]
