@@ -76,16 +76,16 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Test
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'androidx.test:core:1.1.0'
-    testImplementation 'org.mockito:mockito-core:2.23.4'
-    testImplementation "org.robolectric:robolectric:4.2"
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "androidx.test:core:$testCoreVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     //Artear
     implementation "com.artear.tools:tools:$toolsVersion"

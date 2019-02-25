@@ -25,6 +25,8 @@ import android.os.Build.VERSION_CODES.M
 import android.telephony.TelephonyManager.*
 import com.artear.networking.extension.connectivityManager
 import com.artear.networking.extension.telephonyManager
+import com.artear.tools.android.isLollipop
+import com.artear.tools.android.isMarshMallow
 import java.util.*
 
 object ConnectionUtil {

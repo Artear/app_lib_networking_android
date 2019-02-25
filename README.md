@@ -1,5 +1,4 @@
-# app_base_library_android
-app_base_library_android Lib 
+# Networking Library
 
 Library for clone and have ready a library framework for start to work
 
