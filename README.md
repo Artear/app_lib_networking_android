@@ -2,6 +2,31 @@
 
 Library for clone and have ready a library framework for start to work
 
+Download
+--------
+
+via Maven:
+```xml
+<dependency>
+  <groupId>com.artear.networking</groupId>
+  <artifactId>networking</artifactId>
+  <version>0.0.4</version>
+</dependency>
+```
+or Gradle:
+```groovy
+implementation 'com.artear.networking:networking::0.0.4'
+```
+
+Requires:
+
+```xml
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+
+Test Lib requires at minimum Java 7 or Android 4.1.
+
 License
 =======
 
