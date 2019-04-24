@@ -43,8 +43,6 @@ buildscript {
         // AndroidX
         appCompatVersion = '1.0.2'
 
-        // Constraint Layout
-        constraintLayoutVersion = '1.1.3'
 
         // -------------- Test --------------
         mockitoVersion = '2.27.0'
